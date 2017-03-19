@@ -9,11 +9,14 @@ public class Game
 {
   	private  String [][] block= new String[4][4];
   	private  int [][] ifblock= new int[4][4];
-	private int score=0;
+	private int score;
 	private int cnt=1;
 	private int cnt2=0;
 	private int cnt3=0;
+	private final long constant=10000000;
 	private boolean isFound;
+	private long startTime;
+	private long estimatedTime;
 	public void setblock() throws FileNotFoundException,IOException
 	{
 		File file = new File("NamesOfAnimals.txt");
@@ -58,7 +61,6 @@ public class Game
         br.close();
 	 
 	}
-	
 	public void setifblock()
 	{
 		for(int i=0;i<4;i++)
@@ -98,7 +100,12 @@ public class Game
         {
         	for(int j=0;j<4;j++)
         	{
-        		if(i==row1 && j==column1)
+        		if(ifblock[i][j]==42)
+        		{
+        			System.out.print(String.format("%10s","*"));
+        			continue;
+        		}
+        		else if(i==row1 && j==column1)
         		{
         			System.out.print(String.format("%10s",block[i][j]));
         			continue;
@@ -118,19 +125,6 @@ public class Game
         	System.out.println();
         }
 		System.out.println();
-	}
-	public void TestShow()
-	{
-		for(int i=0;i<4;i++)
-        {
-        	for(int j=0;j<4;j++)
-        	{
-        		
-        		System.out.print(String.format("%10s",block[i][j]));
-        	}
-        	
-        	System.out.println();
-        }
 	}
 	public int findRow(int index)
 	{
@@ -168,7 +162,7 @@ public class Game
 	 		return column;
 	 	}
 	}
-	public String getName(int index)
+	public String getBlockName(int index)
 	{
 		int row;
         int column;
@@ -187,10 +181,10 @@ public class Game
 	 	}
 		
 	}
-	public void isFound(int index1,int index2)
+	public void setisFound(int index1,int index2)
 	{
 		
-		if(getName(index1).equals(getName(index2)))
+		if(getBlockName(index1).equals(getBlockName(index2)))
 		{
 			
 			this.isFound=true;
@@ -212,32 +206,59 @@ public class Game
     	ifblock[row][column]=(int)'*';
     	
     }
+    public void setScore(){this.score=(int) (constant/estimatedTime);}
+    public int getScore(){return this.score;}
+    
     public void StartGame()
-    {   int box1,box2;
+    {    startTime = System.currentTimeMillis();
+    
+    	
+    	int box1,box2;
         int i=0;
     	Scanner scan=new Scanner(System.in);
         do{
+        	TestShow();
+        	
         	showIndexCards();
         	System.out.println("Please type two number of the box that you want to flip!");
         	box1=scan.nextInt(); box2=scan.nextInt();
-        	isFound(box1,box2);
+        	setisFound(box1,box2);
+        	
         	openedIndexCards(findRow(box1),findColumn(box1),findRow(box2),findColumn(box2));
         	
     		if(getisFound()==true)
     		{  
-    		    
+    			System.out.println("The boxes that you have already flipped are same :)");
     			deletePairs(findRow(box1),findColumn(box1));
     			deletePairs(findRow(box2),findColumn(box2));
     		    i++;
     		}
     		else
     		{
-    			System.out.println("The boxes that you have flip are not same!!!!!");
+    			System.out.println("The boxes that you have already fliped are not same!!!");
     		}
-    	
+    	   
         }while(i<8);
+        showIndexCards();
+        estimatedTime = ((System.currentTimeMillis() - startTime)/1000);
+        setScore();
+        
+        
         
         System.out.println("The Game Over");
     }
+    public void TestShow()
+	{
+		for(int i=0;i<4;i++)
+        {
+        	for(int j=0;j<4;j++)
+        	{
+        		
+        		System.out.print(String.format("%10s",block[i][j]));
+        	}
+        	
+        	System.out.println();
+        }
+	}
 	public Game() throws FileNotFoundException, IOException{setifblock(); setblock();}
 }

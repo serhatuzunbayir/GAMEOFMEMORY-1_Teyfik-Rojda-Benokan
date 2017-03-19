@@ -6,8 +6,8 @@ public class User {
 	private Game game;
     
 	public void setName(String name){this.name=name;}
-	public String getName(){return name;}
-    User(String name) throws FileNotFoundException, IOException{this.name=name; game=new Game();}
+	public String getName(){  return name;}
+    public User(String n) throws FileNotFoundException, IOException{this.name=n; game=new Game();}
     public Game getGame() {return game;}
 }
 
