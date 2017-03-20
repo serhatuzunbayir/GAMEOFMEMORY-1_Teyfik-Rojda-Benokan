@@ -1,3 +1,5 @@
+import java.io.*;
+import java.util.Random;
 
 public class Record {
 private String userName="No Name";
@@ -12,10 +14,10 @@ public void setUser(User u){user=u;}
 public User getUser(){return user;}
 public void setGame(Game game){this.game=game;}
 public Game getGame(){return game;}
-//public void orderHighScore(){}
-public Record(User u,Game g){
+public Record(User u,Game g){ this.user=u;     this.game=g; setUserScore(); setUserName(); }
+public Record(){}	
 	
-	this.user=u;     this.game=g; setUserScore(); setUserName(); }
+
 
 
 }

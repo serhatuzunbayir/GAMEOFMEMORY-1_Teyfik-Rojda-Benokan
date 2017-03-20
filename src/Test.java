@@ -9,12 +9,14 @@ public class Test {
 	{
 		
 		
+		
 		int choice;
 		String userName;
 		boolean stat = false; //status of choice
 		Scanner scan=new Scanner(System.in);
 		User user;
 		Record rec;
+		HighScore score = null;
 		do{
 	    	System.out.println(String.format("%10s","!!_WELCOME TO GAME OF MEMORY_!!"));
 		    System.out.println("1-Play The Game");
@@ -34,13 +36,22 @@ public class Test {
 			    	user=new User(userName);
 			    	user.getGame().StartGame();
 			    	rec=new Record(user,user.getGame());
-			    	System.out.println(rec.getUserName()+""+rec.getUserScore());
+			    	score=new HighScore(score,rec);
+			    	score.writeScores();
+			    //	System.out.print(score.getUserName()+""+score.getUserScore());
+			    	
+			    	
+			    //	System.out.println(rec.getUserName()+""+rec.getUserScore());
 			    	
 			    	break;
 			    }
 			    
 			    case 2:
 			    {
+			    	
+			    	score.orderHighScore();
+			    	score.findHeadLinked();
+			    	score.printOrderedHighScores();
 			    	
 			    	break;
 			    }
