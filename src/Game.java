@@ -245,7 +245,8 @@ public class Game
         
         
         
-        System.out.println("The Game Over");
+        System.out.println("!!_The Game Has  Finished_!!");
+        System.out.println("Your Score Is "+getScore());
     }
     public void TestShow()
 	{

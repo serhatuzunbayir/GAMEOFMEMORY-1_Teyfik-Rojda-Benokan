@@ -1,5 +1,5 @@
 import java.io.*;
-
+import java.lang.Integer;
 
 public class HighScore {
 	private int score;
@@ -9,33 +9,56 @@ public class HighScore {
 	private HighScore next;
 	private HighScore previous;
 	private HighScore start;
-	private HighScore temp;
 	private HighScore topHead,topTail;
-	public HighScore(HighScore hg,Record rec){
-		start=hg;
+	public HighScore(String name,int score){
+		
 		previous=null; 
 		next=null; 
-		this.rec=rec; 
-		username=this.rec.getUserName(); 
-		score=(int)this.rec.getUserScore();
+		username=name;
+		this.score=score;
+		
+		
 	}
-	public HighScore(){ score=0;}
+	public HighScore(){
+		previous=null; 
+		next=null; 
+	}
+	public void setConfig(){username=rec.getUserName(); score=(int)rec.getUserScore();}
+	public void setStart(HighScore high){start=high;}
+	public void setRec(Record rec){this.rec=rec;}
 	public HighScore getStart(){return start;}
+	public void setNext(HighScore next){next=next.next;}
+	public HighScore getNext(){return next;}
+	public void setPrevious(HighScore previous){previous=previous.previous;}
+	public HighScore getPrevious(){return previous;}
+	
+	
 	
 	public void writeScores() throws IOException,FileNotFoundException
 	{
 		
-		FileWriter writer = new FileWriter("HighScores.txt", true);
+			//writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("HighScores.txt")));
+		FileWriter  writer = new FileWriter("HighScores.txt", true);
 	    
 		writer.write(username);
 	    writer.write("\r\n");  
 	    writer.write(new Integer((int)score).toString());
+	    
 	    writer.write("\r\n");
 	  // writer.write(new Integer((int) rec.getUserScore()).toString());
 	  //or writer.write("getUserScore()");
 	  //or writer.write(String.valueOf(getUserScore()));
+		
 	    writer.close();
 	 }   
+	public void setUserName(String name)
+	{
+		username=name;
+	}
+	public void setUserScore(int number)
+	{
+		score=number;
+	}
 	public  String getUserName()    
 	{
 		return this.username;
@@ -44,8 +67,30 @@ public class HighScore {
 	{
 		return this.score;
 	}
+	public void testFile() throws FileNotFoundException
+	{
+		File file= new File("HighScores.txt");
+		FileReader fr=new FileReader(file);
+		System.out.println(file.length());
+	}
+	public int calculateLength() throws IOException,FileNotFoundException
+	{
+		File file = new File("HighScores.txt");
+	    FileReader fileReader = new FileReader(file);
+	    BufferedReader br = new BufferedReader(fileReader);
+	    this.length=0;
+	    while(br.readLine()!=null)
+	    {
+	    	this.length++;
+	    }
+	    br.close();
+	   this.length=this.length/2;
+	   return this.length;
+	}	
+
 	public void orderHighScore() throws IOException,FileNotFoundException
 	{
+		
 		File file = new File("HighScores.txt");
 	    FileReader fileReader = new FileReader(file);
 	    
@@ -53,19 +98,22 @@ public class HighScore {
 	    BufferedReader br = new BufferedReader(fileReader);
 	    String line;
 	    int    number;
-	    int cnt = 0;
+	    int cnt=calculateLength();
 	     do
 	    	 {
+	    	    HighScore temp;
 	    	 	line=br.readLine();
-	    	    number=br.read();
-	    		  if(file.length()==0)
+	    	 	number=Integer.parseInt(br.readLine());
+	    	 	
+	    	 
+	    		  if(line==null)
 	    		     {
 	    		    	System.out.println("The HighScores Table is free!!!");
 	    		    	break;
 	    		     } 
 	    		 else
 		    		 {
-		    			 ++cnt;
+		    			 
 		    			 if(previous==null && next==null)
 		    			 {
 		    				 
@@ -78,30 +126,22 @@ public class HighScore {
 		    				 
 		    				 next.next=null;
 		    				 previous.previous=null;
-		    				 break;
+		    				 continue;
 		    				 
 		    			 }
-		    			 else if( number<score)
-		    			 {  temp=start;
+		    			
+		    			 
+		    			 else if( number<score || number==score )
+		    			 {  
+		    				 temp=start;
 		    			    
-				    			  while(number<temp.score && temp.next!=null)
+				    			  while(number<temp.score || number==score)
 				    			  {
-				    				  temp=temp.next;
-				    			  
-					    			  if(temp.next==null)
-					    			  {
-					    				  temp.score=number;
-						    			  temp.username=line;
-						    			  temp.next=new HighScore();
-						    			  temp.next.previous=temp;
-						    			  temp.next.next=null;
-						    			  break;
-					    			  }
-					    			  else if(temp.score<number)
+				    				   if(temp.score<number || temp.score==number )
 					    			  {
 					    				  HighScore mytemp=new HighScore();
-					    				  mytemp.score=number;
-					    				  mytemp.username=line;
+					    				  mytemp.setUserScore(number); //or mytemp.score=number;
+					    				  mytemp.setUserName(line);    //or mytemp.username=line;
 					    				  
 					    				  mytemp.previous=temp.previous;
 					    				  mytemp.previous.next=mytemp;
@@ -109,6 +149,32 @@ public class HighScore {
 					    				  temp.previous=mytemp;
 					    				  break;
 					    			  }
+				    				  
+				    				  temp=temp.next;
+				    			  
+				    				   if(temp.next==null)
+					    			  {
+					    				  temp.setUserScore(number); //or temp.score=number;
+						    			  temp.setUserName(line);    //or temp.username=line;
+						    			  temp.next=new HighScore();
+						    			  temp.next.previous=temp;
+						    			  temp.next.next=null;
+						    			  break;
+					    			  }
+					    			  
+					    			  else if(temp.score<number || temp.score==number )
+					    			  {
+					    				  HighScore mytemp=new HighScore();
+					    				  mytemp.setUserScore(number); //or mytemp.score=number;
+					    				  mytemp.setUserName(line);    //or mytemp.username=line;
+					    				  
+					    				  mytemp.previous=temp.previous;
+					    				  mytemp.previous.next=mytemp;
+					    				  mytemp.next=temp;
+					    				  temp.previous=mytemp;
+					    				  break;
+					    			  }
+					    			  
 				    			  }
 				    			  
 				    			  
@@ -117,24 +183,25 @@ public class HighScore {
 		    			 else if(score<number)
 		    			 { temp=start;
 		    			    
-				    			  while(temp.score<number && temp.previous!=null)
+				    			  while(temp.score<number)
 				    			  {
 				    				  temp=temp.previous;
 				    			  
 					    			  if(temp.previous==null)
 					    			  {
-					    				  temp.score=number;
-						    			  temp.username=line;
+					    				  temp.setUserScore(number); //or temp.score=number;   
+						    			  temp.setUserName(line);    //or temp.username=line;
 						    			  temp.previous=new HighScore();
 						    			  temp.previous.next=temp;
 						    			  temp.previous.previous=null;
 						    			  break;
 					    			  }
-					    			  else if(number<temp.score)
+					    			  
+					    			  else if(number<temp.score || number==temp.score )
 					    			  {
 					    				  HighScore mytemp=new HighScore();
-					    				  mytemp.score=number;
-					    				  mytemp.username=line;
+					    				  mytemp.setUserScore(number); //or mytemp.score=number;
+					    				  mytemp.setUserName(line);    //or mytemp.username=line;
 					    				  
 					    				  mytemp.next=temp.next;
 					    				  mytemp.next.previous=mytemp;
@@ -142,14 +209,18 @@ public class HighScore {
 					    				  temp.next=mytemp;
 					    				  break;
 					    			  }
+					    			  
 				    			  }
 		    			 }
+		    			 
+		    			 
 		    			 
 		    			
 		    		 }
 	    		 
-	    		 
-	    	 }while(br.readLine()!=null);
+	    		 cnt--;
+	    	 }while(1<cnt);
+	     br.close();
 	    	
 	     length=cnt;
 	}    	
@@ -157,7 +228,7 @@ public class HighScore {
 	{
 		HighScore mytemp;
 		mytemp=start;
-		while(mytemp!=null)
+		while(mytemp.previous.previous!=null)
 		{
 			mytemp=mytemp.previous;
 		}
@@ -168,7 +239,7 @@ public class HighScore {
 	{
 		HighScore mytemp;
 		mytemp=start;
-		while(mytemp.next!=null)
+		while(mytemp.next.next!=null)
 		{
 			mytemp=mytemp.next;
 		}
@@ -179,11 +250,13 @@ public class HighScore {
 	{
 		HighScore print=topHead;
 		int i=1;
-		while(print!=null)
+		System.out.println(String.format("%20s","High Scores"));
+		while(print.next!=null)
 		{
-			System.out.println("High Scores");
-			System.out.println(i+"."+print.username+print.score);
+			
+			System.out.println(i+"."+String.format("%10s",print.username)+String.format("%13s",print.score));
 			print=print.next;
+			i++;
 		}
 		
 	}
