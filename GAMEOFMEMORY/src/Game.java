@@ -17,6 +17,8 @@ public class Game
 	private boolean isFound;
 	private long startTime;
 	private long estimatedTime;
+	
+	//setblock() gets each of animals name from  "NamesOfAnimals.txt" and fills into block member in Game Class
 	public void setblock() throws FileNotFoundException,IOException
 	{
 		File file = new File("NamesOfAnimals.txt");
@@ -61,7 +63,8 @@ public class Game
         br.close();
 	 
 	}
-	public void setifblock()
+	//setblock()   fills index numbers ifblock block member in Game Class 
+    public void setifblock()
 	{
 		for(int i=0;i<4;i++)
 		{
@@ -73,7 +76,8 @@ public class Game
 		}
 		
 	}
-	public void showIndexCards()
+	//showIndexCards() shows the animals in which index number users select 
+    public void showIndexCards()
 	{
 		for(int i=0;i<4;i++)
         {
@@ -94,7 +98,9 @@ public class Game
         	System.out.println();
         }
 	}
-	public void openedIndexCards(int row1,int column1,int row2,int column2) 
+	//openedIndexCards(int row1,int column1,int row2,int column2) deletes pair of animals that are same
+    //or says that selections are not same 
+    public void openedIndexCards(int row1,int column1,int row2,int column2) 
 	{
 		for(int i=0;i<4;i++)
         {
@@ -126,7 +132,8 @@ public class Game
         }
 		System.out.println();
 	}
-	public int findRow(int index)
+	//findRow(int index) returns a row in index that has already selected by users
+    public int findRow(int index)
 	{
 		int row;
         
@@ -144,7 +151,8 @@ public class Game
 	 		return row;
 	 	}
 	}
-	public int findColumn(int index)
+    //findColumn(int index) returns a row in index that has already selected by users
+    public int findColumn(int index)
 	{
 		
         int column;
@@ -162,7 +170,8 @@ public class Game
 	 		return column;
 	 	}
 	}
-	public String getBlockName(int index)
+    //getBlockName(int index) returns a animal in block that has already selected by users
+    public String getBlockName(int index)
 	{
 		int row;
         int column;
@@ -181,7 +190,8 @@ public class Game
 	 	}
 		
 	}
-	public void setisFound(int index1,int index2)
+    //setisFound(int index1,int index2) checks  if index1 and index2 have same animal or not
+    public void setisFound(int index1,int index2)
 	{
 		
 		if(getBlockName(index1).equals(getBlockName(index2)))
@@ -196,19 +206,23 @@ public class Game
 		
 		
 	}
-	public boolean getisFound()
+	//getisFound() returns isFound in Game Class
+    public boolean getisFound()
 	{
 		return this.isFound;
 	}
+    //deletePairs(int row,int column) deletes animals from block in row column coordinate
     public void deletePairs(int row,int column)
     {
     	
     	ifblock[row][column]=(int)'*';
     	
     }
+    //setScore() sets the user's score to score in Game Class
     public void setScore(){this.score=(int) (constant/estimatedTime);}
+    //setScore() returns the  score  in Game Class
     public int getScore(){return this.score;}
-    
+    //StartGame() starts the new game to play
     public void StartGame()
     {    startTime = System.currentTimeMillis();
     
@@ -217,7 +231,7 @@ public class Game
         int i=0;
     	Scanner scan=new Scanner(System.in);
         do{
-        	TestShow();
+        	//TestShow(); to check answers
         	
         	showIndexCards();
         	System.out.println("Please type two number of the box that you want to flip!");
@@ -248,6 +262,7 @@ public class Game
         System.out.println("!!_The Game Has  Finished_!!");
         System.out.println("Your Score Is "+getScore());
     }
+    //TestShow() shows that which animal is in which index
     public void TestShow()
 	{
 		for(int i=0;i<4;i++)
@@ -261,5 +276,6 @@ public class Game
         	System.out.println();
         }
 	}
-	public Game() throws FileNotFoundException, IOException{setifblock(); setblock();}
+	//Game() non-parameterized runs setifblock() and setblock() functions 
+    public Game() throws FileNotFoundException, IOException{setifblock(); setblock();}
 }

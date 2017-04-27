@@ -10,6 +10,8 @@ public class HighScore {
 	private HighScore previous;
 	private HighScore start;
 	private HighScore topHead,topTail;
+	//HighScore(String name,int score) parameterized constructor sets name and score to username and score in HighScore Class
+	//and it sets also next and previous references to null
 	public HighScore(String name,int score){
 		
 		previous=null; 
@@ -19,21 +21,31 @@ public class HighScore {
 		
 		
 	}
-	public HighScore(){
+	//HighScore() non-parameterized constructor sets next and previous references to null
+    public HighScore(){
 		previous=null; 
 		next=null; 
 	}
-	public void setConfig(){username=rec.getUserName(); score=(int)rec.getUserScore();}
-	public void setStart(HighScore high){start=high;}
-	public void setRec(Record rec){this.rec=rec;}
-	public HighScore getStart(){return start;}
-	public void setNext(HighScore next){next=next.next;}
-	public HighScore getNext(){return next;}
-	public void setPrevious(HighScore previous){previous=previous.previous;}
-	public HighScore getPrevious(){return previous;}
+	//setConfig() sets username by getting name from object of Record Class in HighScore Class 
+    //and sets score by getting score from object of Record Class in HighScore Class 
+    public void setConfig(){username=rec.getUserName(); score=(int)rec.getUserScore();}
+	//setStart(HighScore high) sets a object of HighScore Class  to start reference member in HighScore Class
+    public void setStart(HighScore high){start=high;}
+	//setRec(Record rec) sets a object of Record Class  to rec reference member in HighScore Class
+    public void setRec(Record rec){this.rec=rec;}
+    //getStart() returns start reference member in HighScore Class
+    public HighScore getStart(){return start;}
+	//setNext(HighScore next) function sets the next object with linked
+    public void setNext(HighScore next){next=next.next;}
+    //getNext() function gets the next object reference in HighScore Class
+    public HighScore getNext(){return next;}
+    //setPrevious(HighScore previous) function sets the previous object with linked
+    public void setPrevious(HighScore previous){previous=previous.previous;}
+    //getPrevious() function gets the next object reference in HighScore Class
+    public HighScore getPrevious(){return previous;}
 	
 	
-	
+	//writeScore() writes score of user intp "HighScores.txt"
 	public void writeScores() throws IOException,FileNotFoundException
 	{
 		
@@ -51,28 +63,28 @@ public class HighScore {
 		
 	    writer.close();
 	 }   
-	public void setUserName(String name)
+	//setUserName(String name) sets name to username in HighScore Class
+    public void setUserName(String name)
 	{
 		username=name;
 	}
-	public void setUserScore(int number)
+    //setUserScore(int number) sets number to score in HighScore Class
+    public void setUserScore(int number)
 	{
 		score=number;
 	}
+    //getUserName() returns  username in HighScore Class
 	public  String getUserName()    
 	{
 		return this.username;
 	}
+	//setUserScore() returns  score in HighScore Class
 	public  int getUserScore()    
 	{
 		return this.score;
 	}
-	public void testFile() throws FileNotFoundException
-	{
-		File file= new File("HighScores.txt");
-		FileReader fr=new FileReader(file);
-		System.out.println(file.length());
-	}
+	
+	//calculateLength() returns the lenght of "HighScores.txt" file
 	public int calculateLength() throws IOException,FileNotFoundException
 	{
 		File file = new File("HighScores.txt");
@@ -87,7 +99,7 @@ public class HighScore {
 	   this.length=this.length/2;
 	   return this.length;
 	}	
-
+    //orderHighScore() orders users according to their scores by using  "HighScores.txt"
 	public void orderHighScore() throws IOException,FileNotFoundException
 	{
 		
@@ -224,7 +236,8 @@ public class HighScore {
 	    	
 	     length=cnt;
 	}    	
-	public void findHeadLinked()
+	//findHeadLinked() finds the head of linked list
+    public void findHeadLinked()
 	{
 		HighScore mytemp;
 		mytemp=start;
@@ -235,7 +248,8 @@ public class HighScore {
 		
 		topHead=mytemp;
 	}
-	public void findTailLinked()
+    //findTailLinked() finds the tail of linked list
+    public void findTailLinked()
 	{
 		HighScore mytemp;
 		mytemp=start;
@@ -246,7 +260,8 @@ public class HighScore {
 		
 		topTail=mytemp;
 	}
-	public void printOrderedHighScores()
+	//printOrderedHighScores() prints ordered scores with username 
+    public void printOrderedHighScores()
 	{
 		HighScore print=topHead;
 		int i=1;
