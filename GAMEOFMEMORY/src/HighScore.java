@@ -44,7 +44,9 @@ public class HighScore {
     //getPrevious() function gets the next object reference in HighScore Class
     public HighScore getPrevious(){return previous;}
 	
-	
+    //This functions return record object reference
+    public Record getRec(){return this.rec;}
+    
 	//writeScore() writes score of user intp "HighScores.txt"
 	public void writeScores() throws IOException,FileNotFoundException
 	{

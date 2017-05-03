@@ -15,6 +15,8 @@ public class User {
     
     //getGame() functions returns a game object in User Class
     public Game getGame() {return game;}
+    //Default Constructor
+    public User(){}
 }
 
     

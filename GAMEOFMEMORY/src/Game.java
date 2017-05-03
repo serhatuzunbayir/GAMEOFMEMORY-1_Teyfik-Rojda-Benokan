@@ -170,6 +170,10 @@ public class Game
 	 		return column;
 	 	}
 	}
+    //this function returns a string  of matrix which has been referenced by block
+    public String[][] getBlock(){return block;}
+    //this function returns index of matrix which has been referenced by ifblock
+    public int[][] getifBlock(){return ifblock;}
     //getBlockName(int index) returns a animal in block that has already selected by users
     public String getBlockName(int index)
 	{
